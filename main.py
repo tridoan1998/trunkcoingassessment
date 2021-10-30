@@ -1,5 +1,4 @@
 
-
 """
 You’re a Jr. Dev working at a company that has just been granted a contract for building
 a teacher’s admin tool for the local high school! Different teams have been assembled
@@ -16,21 +15,95 @@ that can easily be consumed by the front-end.
 
 """
 
-import csv
-file = open("file.csv")
+import pandas as pd
+import json
 
-type(file)
 
-csvreader = csv.reader(file)
+df = pd.read_csv('marks.csv')
 
-header = []
-header = next(csvreader)
-print(header)
 
-rows = []
-for row in csvreader:
-    rows.append(row)
+# block 1 - simple stats
 
-print(rows)
-file.close()
+print(df['test_id'], df['student_id'], df['mark'])
 
+mean1 = df['mark'].mean()
+
+print(mean1)
+
+
+data = {
+  "students": [
+    {
+      "id": 1,
+      "name": "A",
+      "totalAverage": 72.03,
+      "courses": [
+        {
+          "id": 1,
+          "name": "Biology",
+          "teacher": "Mr. D",
+          "courseAverage": 90.1
+        },
+        {
+          "id": 3,
+          "name": "Math",
+          "teacher": "Mrs. C",
+          "courseAverage": 74.2
+        },
+        {
+          "id": 2,
+          "name": "History",
+          "teacher": "Mrs. P",
+          "courseAverage": 51.8
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "B",
+      "totalAverage": 62.15,
+      "courses": [
+        {
+          "id": 1,
+          "name": "Biology",
+          "teacher": "Mr. D",
+          "courseAverage": 50.1
+        },
+        {
+          "id": 3,
+          "name": "Math",
+          "teacher": "Mrs. C",
+          "courseAverage": 74.2
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "name": "C",
+      "totalAverage": 72.03,
+      "courses": [
+        {
+          "id": 1,
+          "name": "Biology",
+          "teacher": "Mr. D",
+          "courseAverage": 90.1
+        },
+        {
+          "id": 2,
+          "name": "History",
+          "teacher": "Mrs. P",
+          "courseAverage": 51.8
+        },
+        {
+          "id": 3,
+          "name": "Math",
+          "teacher": "Mrs. C",
+          "courseAverage": 74.2
+        }
+      ]
+    }
+  ]
+}
+
+with open("output.json", "w") as write_file:
+    json.dump(data, write_file)
